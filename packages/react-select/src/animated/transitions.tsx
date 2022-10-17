@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Component,
-  ComponentType,
-  createRef,
-  CSSProperties,
-  ReactNode,
-  useRef,
-} from 'react';
+import { ComponentType, CSSProperties, ReactNode, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import {
   ExitHandler,
@@ -67,98 +60,93 @@ export const Fade = <ComponentProps extends {}>({
 export const collapseDuration = 260;
 
 type Width = number | 'auto';
-interface CollapseProps {
-  children: ReactNode;
-  in?: boolean;
-  onExited?: ExitHandler<undefined | HTMLElement>;
-}
-interface CollapseState {
-  width: Width;
-}
 
-// wrap each MultiValue with a collapse transition; decreases width until
-// finally removing from DOM
-export class Collapse extends Component<CollapseProps, CollapseState> {
-  duration = collapseDuration;
-  rafID?: number | null;
-  state: CollapseState = { width: 'auto' };
-  transition: { [K in TransitionStatus]?: CSSProperties } = {
-    exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
-    exited: { width: 0 },
-  };
-  nodeRef = createRef<HTMLDivElement>();
-
-  componentDidMount() {
-    const { current: ref } = this.nodeRef;
-
-    /*
-      A check on existence of ref should not be necessary at this point,
-      but TypeScript demands it.
-    */
-    if (ref) {
-      /*
-        Here we're invoking requestAnimationFrame with a callback invoking our
-        call to getBoundingClientRect and setState in order to resolve an edge case
-        around portalling. Certain portalling solutions briefly remove children from the DOM
-        before appending them to the target node. This is to avoid us trying to call getBoundingClientrect
-        while the Select component is in this state.
-      */
-      // cannot use `offsetWidth` because it is rounded
-      this.rafID = window.requestAnimationFrame(() => {
-        const { width } = ref.getBoundingClientRect();
-        this.setState({ width });
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.rafID) {
-      window.cancelAnimationFrame(this.rafID);
-    }
-  }
-
-  // get base styles
-  getStyle = (width: Width): CSSProperties => ({
+/** Get base styles. */
+function getBaseStyles(width: Width): CSSProperties {
+  return {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     width,
-  });
+  };
+}
 
-  // get transition styles
-  getTransition = (state: TransitionStatus) => this.transition[state];
+const transition: { [K in TransitionStatus]?: CSSProperties } = {
+  exiting: { width: 0, transition: `width ${collapseDuration}ms ease-out` },
+  exited: { width: 0 },
+};
 
-  render() {
-    const { children, in: inProp, onExited } = this.props;
-    const exitedProp = () => {
-      if (this.nodeRef.current && onExited) {
-        onExited(this.nodeRef.current);
+/** Get styles based on the transition state. */
+function getTransitionStyles(state: TransitionStatus) {
+  return transition[state];
+}
+
+interface CollapseProps {
+  /** The children to be rendered. */
+  children: ReactNode;
+  /** Show the component; triggers the enter or exit states. */
+  in?: boolean;
+  /** Callback fired after the "exited" status is applied. */
+  onExited?: ExitHandler<undefined | HTMLElement>;
+}
+
+/**
+ * Wrap each MultiValue with a collapse transition; decreases width until
+ * finally removing from DOM.
+ */
+export function Collapse({
+  children,
+  in: inProp,
+  onExited: onExitedProp,
+}: CollapseProps) {
+  const [width, setWidth] = React.useState<Width>('auto');
+  const nodeRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    /**
+     * Here we're invoking requestAnimationFrame with a callback invoking our
+     * call to getBoundingClientRect and setWidth in order to resolve an
+     * edge-case around portalling.
+     * Certain portalling solutions briefly remove children from the DOM before
+     * appending them to the target node. This is to avoid us trying to call
+     * getBoundingClientRect while the Select component is in this state.
+     *
+     * NOTE: we cannot use offsetWidth here because it is rounded.
+     */
+    const id = window.requestAnimationFrame(() => {
+      if (nodeRef.current) {
+        setWidth(nodeRef.current.getBoundingClientRect().width);
       }
-    };
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, []);
 
-    const { width } = this.state;
+  const onExited = React.useCallback(() => {
+    if (nodeRef.current && onExitedProp) {
+      onExitedProp(nodeRef.current);
+    }
+  }, [onExitedProp]);
 
-    return (
-      <Transition
-        enter={false}
-        mountOnEnter
-        unmountOnExit
-        in={inProp}
-        onExited={exitedProp}
-        timeout={this.duration}
-        nodeRef={this.nodeRef}
-      >
-        {(state) => {
-          const style = {
-            ...this.getStyle(width),
-            ...this.getTransition(state),
-          };
-          return (
-            <div ref={this.nodeRef} style={style}>
-              {children}
-            </div>
-          );
-        }}
-      </Transition>
-    );
-  }
+  return (
+    <Transition
+      enter={false}
+      mountOnEnter
+      unmountOnExit
+      in={inProp}
+      onExited={onExited}
+      timeout={collapseDuration}
+      nodeRef={nodeRef}
+    >
+      {(state) => {
+        const style = {
+          ...getBaseStyles(width),
+          ...getTransitionStyles(state),
+        };
+        return (
+          <div ref={nodeRef} style={style}>
+            {children}
+          </div>
+        );
+      }}
+    </Transition>
+  );
 }
