@@ -10,12 +10,12 @@ import {
   RefCallback,
   TouchEventHandler,
 } from 'react';
-import { MenuPlacer } from './components/Menu';
-import LiveRegion from './components/LiveRegion';
+import { MenuPlacer } from '../components/Menu';
+import LiveRegion from '../components/LiveRegion';
 
-import { createFilter, FilterOptionOption } from './filters';
-import { DummyInput, ScrollManager } from './internal/index';
-import { AriaLiveMessages, AriaSelection } from './accessibility/index';
+import { createFilter, FilterOptionOption } from '../filters';
+import { DummyInput, ScrollManager } from '../internal/index';
+import { AriaLiveMessages, AriaSelection } from '../accessibility/index';
 
 import {
   classNames,
@@ -29,19 +29,19 @@ import {
   valueTernary,
   multiValueAsValue,
   singleValueAsValue,
-} from './utils';
+} from '../utils';
 
 import {
   formatGroupLabel as formatGroupLabelBuiltin,
   getOptionLabel as getOptionLabelBuiltin,
   getOptionValue as getOptionValueBuiltin,
   isOptionDisabled as isOptionDisabledBuiltin,
-} from './builtins';
+} from '../builtins';
 
-import { defaultComponents, SelectComponentsConfig } from './components/index';
+import { defaultComponents, SelectComponentsConfig } from '../components/index';
 
-import { defaultStyles, StylesConfig, StylesProps } from './styles';
-import { defaultTheme, ThemeConfig } from './theme';
+import { defaultStyles, StylesConfig, StylesProps } from '../styles';
+import { defaultTheme, ThemeConfig } from '../theme';
 
 import {
   ActionMeta,
@@ -57,7 +57,7 @@ import {
   OptionsOrGroups,
   PropsValue,
   SetValueAction,
-} from './types';
+} from '../types';
 
 export type FormatOptionLabelContext = 'menu' | 'value';
 export interface FormatOptionLabelMeta<Option> {

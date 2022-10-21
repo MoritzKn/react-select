@@ -1,4 +1,4 @@
-import Select from './Select';
+import Select from './base';
 import type { GroupBase } from './types';
 import useStateManager from './useStateManager';
 
@@ -56,4 +56,4 @@ export type {
   AriaOnFilter,
   AriaOnFocus,
 } from './accessibility';
-export type { FormatOptionLabelContext, FormatOptionLabelMeta } from './Select';
+export type { FormatOptionLabelContext, FormatOptionLabelMeta } from './base';

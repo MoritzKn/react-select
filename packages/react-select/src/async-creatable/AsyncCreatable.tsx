@@ -5,11 +5,11 @@ import {
   ReactElement,
   RefAttributes,
 } from 'react';
-import Select from './Select';
-import { GroupBase } from './types';
-import useAsync, { AsyncAdditionalProps } from './useAsync';
-import useStateManager, { StateManagerProps } from './useStateManager';
-import useCreatable, { CreatableAdditionalProps } from './useCreatable';
+import Select from '../base';
+import { GroupBase } from '../types';
+import useAsync, { AsyncAdditionalProps } from '../useAsync';
+import useStateManager, { StateManagerProps } from '../useStateManager';
+import useCreatable, { CreatableAdditionalProps } from '../useCreatable';
 
 export type AsyncCreatableProps<
   Option,

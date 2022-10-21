@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AsyncCreatable from '../AsyncCreatable';
+import AsyncCreatable from '../async-creatable';
 import { Option, OPTIONS } from './constants';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

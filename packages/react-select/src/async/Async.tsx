@@ -5,11 +5,11 @@ import {
   ReactElement,
   RefAttributes,
 } from 'react';
-import Select from './Select';
-import { GroupBase } from './types';
-import useStateManager from './useStateManager';
-import useAsync from './useAsync';
-import type { AsyncProps } from './useAsync';
+import Select from '../base';
+import { GroupBase } from '../types';
+import useStateManager from '../useStateManager';
+import useAsync from '../useAsync';
+import type { AsyncProps } from '../useAsync';
 export type { AsyncProps };
 
 type AsyncSelect = <

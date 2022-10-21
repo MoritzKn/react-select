@@ -7,7 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
-import { Props } from '../Select';
+import { Props } from '../base';
 
 interface MultiValueComponents<
   Option,

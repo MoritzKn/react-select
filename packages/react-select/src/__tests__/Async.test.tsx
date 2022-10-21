@@ -3,7 +3,7 @@ import cases from 'jest-in-case';
 import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Async from '../Async';
+import Async from '../async';
 import { Option, OPTIONS } from './constants';
 
 test('defaults - snapshot', () => {

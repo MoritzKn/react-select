@@ -13,7 +13,7 @@ import {
   OptionNumberValue,
   OptionBooleanValue,
 } from './constants';
-import Select, { FormatOptionLabelMeta } from '../Select';
+import Select, { FormatOptionLabelMeta } from '../base';
 import { FilterOptionOption } from '../filters';
 
 import { matchers } from '@emotion/jest';

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import cases from 'jest-in-case';
 
-import Creatable from '../Creatable';
+import Creatable from '../creatable';
 import { Option, OPTIONS } from './constants';
 
 interface BasicProps {

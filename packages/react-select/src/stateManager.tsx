@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 import { GroupBase } from './types';
-import Select from './Select';
+import Select from './base';
 import useStateManager from './useStateManager';
 import type { StateManagerProps } from './useStateManager';
 export type { StateManagerProps };

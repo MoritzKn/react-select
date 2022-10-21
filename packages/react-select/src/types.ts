@@ -1,5 +1,5 @@
 import { CSSObject } from '@emotion/react';
-import { Props } from './Select';
+import { Props } from './base';
 import { StylesProps } from './styles';
 
 export interface GroupBase<Option> {
