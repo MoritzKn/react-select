@@ -1,12 +1,22 @@
 import type { StorybookConfig } from '@storybook/core-common';
 
 const config: StorybookConfig = {
-  addons: ['@storybook/addon-a11y', '@storybook/addon-essentials'],
+  addons: [
+    '@storybook/addon-a11y',
+    '@storybook/addon-essentials',
+    {
+      name: '@storybook/addon-postcss',
+      options: {
+        postcssLoaderOptions: {
+          implementation: require('postcss'),
+        },
+      },
+    },
+  ],
   core: {
     builder: 'webpack4',
   },
   features: {
-    postcss: false,
     /**
      * Enable code splitting
      * @see https://storybook.js.org/docs/react/builders/webpack#code-splitting
